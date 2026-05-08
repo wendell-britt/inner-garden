@@ -1,0 +1,17 @@
+[
+  {
+    "id": "1778022013921",
+    "name": "General",
+    "createdAt": "2026-05-05T23:00:13.921Z",
+    "model": "deepseek-v4-flash",
+    "executorModel": null,
+    "thinking": true,
+    "enhanced": false,
+    "tokenSaver": false,
+    "workingKnowledge": false,
+    "debugMode": false,
+    "visualDebug": false,
+    "iterativeMode": false,
+    "unbound": false
+  }
+]

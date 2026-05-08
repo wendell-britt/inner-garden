@@ -1,0 +1,180 @@
+File: js/entities/Player.js (178 lines)
+
+1| /**
+2|  * Player Entity
+3|  * The cultivator character that moves around the world, interacts, and performs actions.
+4|  */
+5| 
+6| export class Player {
+7|     constructor(x, y) {
+8|         this.x = x;
+9|         this.y = y;
+10|         this.width = 32;
+11|         this.height = 32;
+12|         this.speed = 120;          // pixels per second
+13|         this.direction = 'down';
+14|         this.facing = 'south';
+15|         this.isMoving = false;
+16|         this.animationFrame = 0;
+17|         this.animationTimer = 0;
+18|         this.animationSpeed = 150; // ms per frame
+19|         
+20|         // Interaction
+21|         this.interactionRange = 40;
+22|         this.currentAction = null; // 'watering', 'planting', 'meditating', 'harvesting'
+23|         this.actionTimer = 0;
+24|         this.actionDuration = 500; // ms
+25|         
+26|         // Visual effects
+27|         this.trailPositions = [];
+28|         this.trailTimer = 0;
+29|     }
+30| 
+31|     /**
+32|      * Update player position and state
+33|      * @param {number} deltaTime
+34|      * @param {{x: number, y: number}} movement - Direction vector
+35|      * @param {Array} obstacles - Collision rectangles
+36|      */
+37|     update(deltaTime, movement, obstacles = []) {
+38|         this.isMoving = movement.x !== 0 || movement.y !== 0;
+39|         
+40|         if (this.currentAction) {
+41|             this.actionTimer -= deltaTime;
+42|             if (this.actionTimer <= 0) {
+43|                 this.currentAction = null;
+44|             }
+45|             // Can't move while performing action
+46|             return;
+47|         }
+48|         
+49|         if (this.isMoving) {
+50|             // Update direction based on movement
+51|             if (Math.abs(movement.x) > Math.abs(movement.y)) {
+52|                 this.direction = movement.x > 0 ? 'right' : 'left';
+53|                 this.facing = movement.x > 0 ? 'east' : 'west';
+54|             } else {
+55|                 this.direction = movement.y > 0 ? 'down' : 'up';
+56|                 this.facing = movement.y > 0 ? 'south' : 'north';
+57|             }
+58|             
+59|             // Calculate new position
+60|             let newX = this.x + movement.x * this.speed * (deltaTime / 1000);
+61|             let newY = this.y + movement.y * this.speed * (deltaTime / 1000);
+62|             
+63|             // Collision check with obstacles
+64|             let canMoveX = true;
+65|             let canMoveY = true;
+66|             
+67|             for (const obs of obstacles) {
+68|                 // Check X movement
+69|                 if (this._checkCollision(newX, this.y, obs)) {
+70|                     canMoveX = false;
+71|                 }
+72|                 // Check Y movement
+73|                 if (this._checkCollision(this.x, newY, obs)) {
+74|                     canMoveY = false;
+75|                 }
+76|             }
+77|             
+78|             if (canMoveX) this.x = newX;
+79|             if (canMoveY) this.y = newY;
+80|             
+81|             // Animation
+82|             this.animationTimer += deltaTime;
+83|             if (this.animationTimer >= this.animationSpeed) {
+84|                 this.animationTimer = 0;
+85|                 this.animationFrame = (this.animationFrame + 1) % 4;
+86|             }
+87|             
+88|             // Trail effect
+89|             this.trailTimer += deltaTime;
+90|             if (this.trailTimer >= 200) {
+91|                 this.trailTimer = 0;
+92|                 this.trailPositions.push({ x: this.x, y: this.y, life: 1 });
+93|                 if (this.trailPositions.length > 10) {
+94|                     this.trailPositions.shift();
+95|                 }
+96|             }
+97|         } else {
+98|             this.animationFrame = 0;
+99|             this.animationTimer = 0;
+100|         }
+101|         
+102|         // Update trail fade
+103|         for (let i = this.trailPositions.length - 1; i >= 0; i--) {
+104|             this.trailPositions[i].life -= deltaTime / 1000;
+105|             if (this.trailPositions[i].life <= 0) {
+106|                 this.trailPositions.splice(i, 1);
+107|             }
+108|         }
+109|     }
+110| 
+111|     /**
+112|      * Check collision between player rectangle and obstacle
+113|      */
+114|     _checkCollision(px, py, obstacle) {
+115|         return px < obstacle.x + obstacle.w &&
+116|                px + this.width > obstacle.x &&
+117|                py < obstacle.y + obstacle.h &&
+118|                py + this.height > obstacle.y;
+119|     }
+120| 
+121|     /**
+122|      * Start an action
+123|      * @param {string} action - Action name
+124|      * @param {number} duration - How long it takes (ms)
+125|      */
+126|     startAction(action, duration = 500) {
+127|         this.currentAction = action;
+128|         this.actionTimer = duration;
+129|     }
+130| 
+131|     /**
+132|      * Check if player is performing an action
+133|      */
+134|     isActing() {
+135|         return this.currentAction !== null;
+136|     }
+137| 
+138|     /**
+139|      * Get the player's interaction point (in front of them)
+140|      */
+141|     getInteractionPoint() {
+142|         const range = this.interactionRange;
+143|         switch (this.facing) {
+144|             case 'north': return { x: this.x + this.width / 2, y: this.y - range };
+145|             case 'south': return { x: this.x + this.width / 2, y: this.y + this.height + range };
+146|             case 'east': return { x: this.x + this.width + range, y: this.y + this.height / 2 };
+147|             case 'west': return { x: this.x - range, y: this.y + this.height / 2 };
+148|             default: return { x: this.x + this.width / 2, y: this.y + this.height + range };
+149|         }
+150|     }
+151| 
+152|     /**
+153|      * Check if a point is within interaction range
+154|      */
+155|     canInteractWith(targetX, targetY) {
+156|         const dx = (this.x + this.width / 2) - targetX;
+157|         const dy = (this.y + this.height / 2) - targetY;
+158|         return Math.sqrt(dx * dx + dy * dy) <= this.interactionRange;
+159|     }
+160| 
+161|     /**
+162|      * Get state for rendering
+163|      */
+164|     getRenderState() {
+165|         return {
+166|             x: this.x,
+167|             y: this.y,
+168|             width: this.width,
+169|             height: this.height,
+170|             direction: this.direction,
+171|             isMoving: this.isMoving,
+172|             animationFrame: this.animationFrame,
+173|             currentAction: this.currentAction,
+174|             trail: this.trailPositions
+175|         };
+176|     }
+177| }
+178| 

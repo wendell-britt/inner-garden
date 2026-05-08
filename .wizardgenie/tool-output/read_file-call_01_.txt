@@ -1,0 +1,234 @@
+File: js/systems/CultivationSystem.js (232 lines)
+
+1| /**
+2|  * Cultivation System
+3|  * Manages player stats, cultivation levels, and character progression.
+4|  * Taoist cultivation framework: Mortal → Qi Condensation → Foundation → Core → Nascent Soul → Immortal
+5|  */
+6| 
+7| export const CultivationLevels = [
+8|     { id: 'mortal', name: 'Mortal', minExp: 0, qiColor: '#8a8a8a', title: 'Awakening One' },
+9|     { id: 'qi_condensation', name: 'Qi Condensation', minExp: 100, qiColor: '#4a8aff', title: 'Qi Gatherer' },
+10|     { id: 'foundation', name: 'Foundation Establishment', minExp: 300, qiColor: '#6a4aff', title: 'Foundation Builder' },
+11|     { id: 'core_formation', name: 'Core Formation', minExp: 700, qiColor: '#ff4a8a', title: 'Core Bearer' },
+12|     { id: 'nascent_soul', name: 'Nascent Soul', minExp: 1500, qiColor: '#ffaa4a', title: 'Soul Awakener' },
+13|     { id: 'immortal', name: 'Immortal Transcendence', minExp: 3000, qiColor: '#ffe8aa', title: 'The Enlightened' }
+14| ];
+15| 
+16| export class CultivationSystem {
+17|     constructor() {
+18|         this.stats = {
+19|             strength: 1,      // Physical resilience (Fire element)
+20|             wisdom: 1,        // Understanding (Water element)
+21|             spirit: 1,        // Spiritual power (Metal element)
+22|             agility: 1,       // Adaptability (Wind element)
+23|             endurance: 1,     // Rootedness (Earth element)
+24|             charisma: 1       // Connection (Lightning element)
+25|         };
+26|         
+27|         this.exp = 0;
+28|         this.level = 1;
+29|         this.cultivationLevel = 'mortal';
+30|         this.qi = 50;         // Current qi
+31|         this.maxQi = 100;     // Max qi capacity
+32|         this.breakthroughs = 0;
+33|         this.titles = ['Awakening One'];
+34|         this.inventory = [];
+35|         this.equipment = {};
+36|     }
+37| 
+38|     /**
+39|      * Get current cultivation level data
+40|      */
+41|     getCultivationLevelData() {
+42|         return CultivationLevels.find(c => c.id === this.cultivationLevel) || CultivationLevels[0];
+43|     }
+44| 
+45|     /**
+46|      * Add experience points
+47|      * @param {number} amount - Exp to add
+48|      * @returns {boolean} Whether the player leveled up
+49|      */
+50|     addExp(amount) {
+51|         this.exp += amount;
+52|         return this._checkLevelUp();
+53|     }
+54| 
+55|     /**
+56|      * Check and process level up
+57|      */
+58|     _checkLevelUp() {
+59|         const currentLevel = this.getCultivationLevelData();
+60|         const nextLevelIndex = CultivationLevels.indexOf(currentLevel) + 1;
+61|         
+62|         if (nextLevelIndex < CultivationLevels.length) {
+63|             const nextLevel = CultivationLevels[nextLevelIndex];
+64|             if (this.exp >= nextLevel.minExp) {
+65|                 this.cultivationLevel = nextLevel.id;
+66|                 this.breakthroughs++;
+67|                 this.titles.push(nextLevel.title);
+68|                 this.maxQi += 50;
+69|                 this.qi = this.maxQi; // Refill qi on breakthrough
+70|                 
+71|                 // Boost all stats slightly
+72|                 Object.keys(this.stats).forEach(stat => {
+73|                     this.stats[stat] += 1;
+74|                 });
+75|                 
+76|                 return {
+77|                     breakthrough: true,
+78|                     newLevel: nextLevel,
+79|                     title: nextLevel.title,
+80|                     statBoost: 'All stats +1'
+81|                 };
+82|             }
+83|         }
+84|         return false;
+85|     }
+86| 
+87|     /**
+88|      * Increase a specific stat
+89|      * @param {string} statName - Which stat to boost
+90|      * @param {number} amount - How much to increase
+91|      * @returns {object} Updated stat value
+92|      */
+93|     boostStat(statName, amount = 1) {
+94|         if (!this.stats.hasOwnProperty(statName)) return null;
+95|         this.stats[statName] += amount;
+96|         return {
+97|             stat: statName,
+98|             newValue: this.stats[statName]
+99|         };
+100|     }
+101| 
+102|     /**
+103|      * Consume a fruit to gain its benefits
+104|      * @param {object} fruit - Harvested fruit data
+105|      * @returns {object} Result of consumption
+106|      */
+107|     consumeFruit(fruit) {
+108|         const statBonus = fruit.statBonus || 'spirit';
+109|         const bonusAmount = Math.max(1, Math.floor(fruit.quality / 20));
+110|         
+111|         const expGain = fruit.quality * 2 + 50;
+112|         const qiGain = fruit.quality;
+113|         
+114|         // Boost the relevant stat
+115|         this.boostStat(statBonus, bonusAmount);
+116|         
+117|         // Add experience
+118|         this.addExp(expGain);
+119|         
+120|         // Restore qi
+121|         this.qi = Math.min(this.maxQi, this.qi + qiGain);
+122|         
+123|         return {
+124|             statBonus: statBonus,
+125|             bonusAmount: bonusAmount,
+126|             expGained: expGain,
+127|             qiGained: qiGain,
+128|             fruitName: fruit.fruitName
+129|         };
+130|     }
+131| 
+132|     /**
+133|      * Use qi for abilities (meditation, special actions)
+134|      * @param {number} amount - Qi to spend
+135|      * @returns {boolean} Whether enough qi was available
+136|      */
+137|     spendQi(amount) {
+138|         if (this.qi < amount) return false;
+139|         this.qi -= amount;
+140|         return true;
+141|     }
+142| 
+143|     /**
+144|      * Meditate to regenerate qi
+145|      * @param {number} deltaTime - ms of meditation
+146|      * @returns {number} Qi regenerated
+147|      */
+148|     regenerateQi(deltaTime) {
+149|         const regenRate = 2 + (this.stats.spirit * 0.5); // Per second
+150|         const regen = (regenRate * deltaTime) / 1000;
+151|         const before = this.qi;
+152|         this.qi = Math.min(this.maxQi, this.qi + regen);
+153|         return Math.round(this.qi - before);
+154|     }
+155| 
+156|     /**
+157|      * Add an item to inventory
+158|      */
+159|     addItem(item) {
+160|         this.inventory.push({
+161|             id: `item_${Date.now()}`,
+162|             ...item,
+163|             acquiredAt: Date.now()
+164|         });
+165|     }
+166| 
+167|     /**
+168|      * Get total stat level sum
+169|      */
+170|     getTotalStats() {
+171|         return Object.values(this.stats).reduce((a, b) => a + b, 0);
+172|     }
+173| 
+174|     /**
+175|      * Get stat that has reached a certain level
+176|      * @param {number} level - Minimum level
+177|      * @returns {Array} Stats meeting the requirement
+178|      */
+179|     getStatsAtLevel(level) {
+180|         return Object.entries(this.stats)
+181|             .filter(([_, v]) => v >= level)
+182|             .map(([k]) => k);
+183|     }
+184| 
+185|     /**
+186|      * Check if any stat is at least a given level
+187|      */
+188|     hasStatAtLevel(level) {
+189|         return Object.values(this.stats).some(v => v >= level);
+190|     }
+191| 
+192|     /**
+193|      * Get full character profile
+194|      */
+195|     getProfile() {
+196|         const cultLevel = this.getCultivationLevelData();
+197|         const nextLevel = CultivationLevels.find(c => c.minExp > this.exp);
+198|         
+199|         return {
+200|             level: this.level,
+201|             exp: this.exp,
+202|             expToNext: nextLevel ? nextLevel.minExp - this.exp : 'MAX',
+203|             cultivationLevel: cultLevel.name,
+204|             cultivationColor: cultLevel.qiColor,
+205|             title: cultLevel.title,
+206|             titles: this.titles,
+207|             stats: { ...this.stats },
+208|             totalStats: this.getTotalStats(),
+209|             qi: Math.round(this.qi),
+210|             maxQi: this.maxQi,
+211|             breakthroughs: this.breakthroughs,
+212|             inventory: this.inventory.length,
+213|             equipment: this.equipment
+214|         };
+215|     }
+216| 
+217|     /**
+218|      * Get stat bonus description
+219|      */
+220|     getStatDescription(statName) {
+221|         const descriptions = {
+222|             strength: 'Physical resilience and courage (Fire)',
+223|             wisdom: 'Deep understanding and insight (Water)',
+224|             spirit: 'Spiritual power and intuition (Metal)',
+225|             agility: 'Adaptability and flow (Wind)',
+226|             endurance: 'Rootedness and patience (Earth)',
+227|             charisma: 'Connection and compassion (Lightning)'
+228|         };
+229|         return descriptions[statName] || 'Unknown stat';
+230|     }
+231| }
+232| 

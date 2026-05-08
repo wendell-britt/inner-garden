@@ -1,0 +1,154 @@
+$ cd /data/wizardgenie/folders/example-project && python -c "
+lines = open('js/core/Game.js').readlines()
+# Find where _handleAction ends
+depth = 0
+in_method = False
+for i, line in enumerate(lines):
+    if '_handleAction() {' in line:
+        in_method = True
+        depth = 1
+        print(f'Method starts at line {i+1}')
+        continue
+    if in_method:
+        for c in line:
+            if c == '{': depth += 1
+            if c == '}': depth -= 1
+        if depth == 0:
+            print(f'Method ends at line {i+1}')
+            # Print from the line after method header to end
+            for j in range(555, i+1):
+                print(f'{j+1}: {lines[j]}', end='')
+            break
+"
+
+Method starts at line 556
+Method ends at line 684
+556:     _handleAction() {
+557:         const px = this.player.x + this.player.width / 2;
+558:         const py = this.player.y + this.player.height / 2;
+559:         const range = this.player.interactionRange;
+560:         
+561:         // Find the closest plot within range (not first-match)
+562:         let closestPlot = null;
+563:         let closestDist = range + 20;
+564:         for (const plot of this.farming.getAllPlots()) {
+565:             const dx = px - (plot.x + 16);
+566:             const dy = py - (plot.y + 16);
+567:             const dist = Math.sqrt(dx * dx + dy * dy);
+568:             if (dist < closestDist) {
+569:                 closestDist = dist;
+570:                 closestPlot = plot;
+571:             }
+572:         }
+573:         
+574:         const plot = closestPlot;
+575:         if (!plot) return;
+576:         
+577:         if (plot.occupied) {
+578:             const crop = this.farming.crops.find(c => c.id === plot.cropId);
+579:             if (!crop) return;
+580:             
+581:             if (crop.stage === 'fruit') {
+582:                 // Harvest
+583:                 const fruit = this.farming.harvestCrop(plot.id);
+584:                 if (fruit) {
+585:                             this.hud.notify(`Harvested ${fruit.fruitName}!`, '#ff8844');
+586:                             const result = this.cultivation.consumeFruit(fruit);
+587:                             this.quests.updateProgress('crop_harvested', { emotionId: fruit.emotionId });
+588:                             this._spawnParticles(plot.x, plot.y, fruit.emotionId);
+589:                             
+590:                             // Tutorial: first harvest
+591:                             if (!this.tutorial.firstHarvest) {
+592:                                 this.tutorial.firstHarvest = true;
+593:                                 setTimeout(() => {
+594:                                     this.dialog.show({
+595:                                         speaker: '✦ Inner Voice',
+596:                                         speakerColor: '#e8c88a',
+597:                                         text: `You harvested your first Enlightenment Fruit!\n\n${result.fruitName}\n• ${result.statGained}: +${result.statAmount}\n• Cultivation EXP: +${result.expGained}\n\nEmotions are not your enemy — they are compost for your growth.\n\nThe fruit has been consumed. Check your stats in the menu (I).`,
+598:                                         style: 'inner',
+599:                                         choices: [
+600:                                             { text: 'Continue my journey', action: 'close' }
+601:                                         ]
+602:                                     });
+603:                                     this.gameState = 'dialog';
+604:                                 }, 600);
+605:                             }
+606:                         }
+607:                     } else {
+608:                         // Water the crop — requires watering can tool
+609:                         if (!this.player.hasTool('wateringCan')) {
+610:                             this.hud.notify('You need a watering can! Talk to Master Wu.', '#ff8844');
+611:                         } else {
+612:                             const can = this.player.getTool('wateringCan');
+613:                             if (can.water <= 0) {
+614:                                 this.hud.notify('Watering can is empty! Refill at the pond (press E near it).', '#4a8aff');
+615:                             } else {
+616:                                 // Use water from the can
+617:                                 const waterUsed = 10;
+618:                                 can.water = Math.max(0, can.water - waterUsed);
+619:                                 
+620:                                 const result = this.farming.waterCrop(plot.id);
+621:                                 if (result.success) {
+622:                                     this.player.startAction('watering', 300);
+623:                                     this.hud.notify(`Watered crop 💧 (${Math.round(can.water)}/${can.maxWater})`, '#4a8aff');
+624:                                     this._spawnParticles(plot.x + 16, plot.y, 'water');
+625:                                     
+626:                                     // Tutorial: first water
+627:                                     if (!this.tutorial.firstWater) {
+628:                                         this.tutorial.firstWater = true;
+629:                                         setTimeout(() => {
+630:                                             this.dialog.show({
+631:                                                 speaker: '✦ Inner Voice',
+632:                                                 speakerColor: '#e8c88a',
+633:                                                 text: 'Watering the crop nurtures it toward the next growth stage.\n\nKeep watering each day. As it grows, you\'ll see it transform:\nSeed → Sprout → Bud → Flower → Fruit\n\nCheck back often — plants grow in real time.',
+634:                                                 style: 'inner',
+635:                                                 choices: [
+636:                                                     { text: 'I understand', action: 'close' }
+637:                                                 ]
+638:                                             });
+639:                                             this.gameState = 'dialog';
+640:                                         }, 600);
+641:                                     }
+642:                                 } else {
+643:                                     this.hud.notify(result.reason, '#aa6a6a');
+644:                                 }
+645:                             }
+646:                         }
+647:                     }
+648:                 } else if (this.emotion.seedsInventory.length > 0) {
+649:                     // Plant a seed — take it from inventory first
+650:                     const seed = this.emotion.takeSeed(0);
+651:                     if (seed) {
+652:                         const crop = this.farming.plantSeed(seed, plot.id);
+653:                         if (crop) {
+654:                             this.hud.notify('Planted a seed! 🌱', '#88cc44');
+655:                             this.quests.updateProgress('seed_created', { emotionId: seed.emotionId });
+656:                             this._spawnParticles(plot.x, plot.y, seed.emotionId);
+657:                             
+658:                             // Tutorial: first plant
+659:                             if (!this.tutorial.firstPlant) {
+660:                                 this.tutorial.firstPlant = true;
+661:                                 setTimeout(() => {
+662:                                     this.dialog.show({
+663:                                         speaker: '✦ Inner Voice',
+664:                                         speakerColor: '#e8c88a',
+665:                                         text: 'Your seed is planted in the Inner Garden.\n\nNow water it by pressing Space near the plot.\n\nAs you nurture it, the plant will grow through stages.\nWhen it bears fruit, harvest and consume it to grow stronger.',
+666:                                         style: 'inner',
+667:                                         choices: [
+668:                                             { text: 'Water it now', action: 'close' },
+669:                                             { text: 'Meditate to boost next seed', action: 'close' }
+670:                                         ]
+671:                                     });
+672:                                     this.gameState = 'dialog';
+673:                                 }, 600);
+674:                             }
+675:                         } else {
+676:                             // Put it back if planting failed
+677:                             this.emotion.seedsInventory.unshift(seed);
+678:                         }
+679:                     }
+680:                 } else {
+681:                     this.hud.notify('No seeds. Press J to journal your emotions and create seeds.', '#8a8a60');
+682:                 }
+683:                 return;
+684:             }

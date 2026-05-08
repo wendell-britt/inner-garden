@@ -1,0 +1,143 @@
+File: js/core/Game.js (lines 580-720 of 788)
+
+580|                 vy: -Math.random() * 4 - 1,
+581|                 life: 1,
+582|                 color: color,
+583|                 size: 2 + Math.random() * 4
+584|             });
+585|         }
+586|     }
+587| 
+588|     /**
+589|      * Update particles
+590|      */
+591|     _updateParticles(deltaTime) {
+592|         const dt = deltaTime / 1000;
+593|         for (let i = this.particles.length - 1; i >= 0; i--) {
+594|             const p = this.particles[i];
+595|             p.x += p.vx;
+596|             p.y += p.vy;
+597|             p.vy += 0.1; // gravity
+598|             p.life -= dt * 1.5;
+599|             
+600|             if (p.life <= 0) {
+601|                 this.particles.splice(i, 1);
+602|             }
+603|         }
+604|     }
+605| 
+606|     /**
+607|      * Render the game
+608|      */
+609|     _render(deltaTime) {
+610|         const ctx = this.ctx;
+611|         const cam = this.camera;
+612|         const offset = cam.getOffset();
+613|         
+614|         ctx.save();
+615|         ctx.imageSmoothingEnabled = false;
+616|         
+617|         // === CLEAR ===
+618|         ctx.fillStyle = this.time.getSkyColor();
+619|         ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+620|         
+621|         // === WORLD ===
+622|         ctx.save();
+623|         ctx.translate(-offset.x, -offset.y);
+624|         
+625|         // Ambient light overlay
+626|         const ambientLight = this.time.getAmbientLight();
+627|         
+628|         // Render ground tiles (grass grid)
+629|         const startTileX = Math.floor(offset.x / this.tileSize);
+630|         const startTileY = Math.floor(offset.y / this.tileSize);
+631|         const endTileX = Math.ceil((offset.x + this.canvas.width) / this.tileSize);
+632|         const endTileY = Math.ceil((offset.y + this.canvas.height) / this.tileSize);
+633|         
+634|         for (let tx = startTileX; tx <= endTileX; tx++) {
+635|             for (let ty = startTileY; ty <= endTileY; ty++) {
+636|                 const tileX = tx * this.tileSize;
+637|                 const tileY = ty * this.tileSize;
+638|                 
+639|                 if (tileX > this.mapWidth || tileY > this.mapHeight) continue;
+640|                 
+641|                 // Different tile types based on position
+642|                 let tileSprite = this.assets.getSprite('tile_grass');
+643|                 
+644|                 // Paths
+645|                 if ((tx >= 10 && tx <= 15 && ty === 10) || 
+646|                     (tx === 15 && ty >= 8 && ty <= 15)) {
+647|                     tileSprite = this.assets.getSprite('tile_path');
+648|                 }
+649|                 
+650|                 // Water area
+651|                 if (tx >= 2 && tx <= 5 && ty >= 9 && ty <= 12) {
+652|                     tileSprite = this.assets.getSprite('tile_water');
+653|                 }
+654|                 
+655|                 ctx.drawImage(tileSprite, tileX, tileY);
+656|             }
+657|         }
+658|         
+659|         // Render garden plots
+660|         for (const plot of this.farming.getAllPlots()) {
+661|             ctx.drawImage(this.assets.getSprite('tile_soil'), plot.x, plot.y);
+662|             
+663|             // Render crop on plot
+664|             if (plot.occupied) {
+665|                 const crop = this.farming.crops.find(c => c.id === plot.cropId);
+666|                 if (crop) {
+667|                     const cropSprite = this.assets.getSprite('crop', crop.stage, crop.emotionId);
+668|                     ctx.drawImage(cropSprite, plot.x, plot.y - 8);
+669|                     
+670|                     // Health indicator
+671|                     if (crop.health < 50) {
+672|                         ctx.fillStyle = crop.health < 25 ? '#ff4444' : '#ffaa44';
+673|                         ctx.fillRect(plot.x + 8, plot.y - 4, 16 * (crop.health / 100), 2);
+674|                     }
+675|                 }
+676|             }
+677|         }
+678|         
+679|         // Render world objects
+680|         for (const obj of this.worldObjects) {
+681|             if (obj.sprite) {
+682|                 ctx.drawImage(obj.sprite, obj.x, obj.y);
+683|             }
+684|         }
+685|         
+686|         // Render NPCs
+687|         for (const npc of this.npcs) {
+688|             if (npc.sprite) {
+689|                 ctx.drawImage(npc.sprite, npc.x - 16, npc.y - 16);
+690|                 
+691|                 // Name tag
+692|                 ctx.fillStyle = 'rgba(0,0,0,0.5)';
+693|                 ctx.fillRect(npc.x - 25, npc.y - 32, 50, 10);
+694|                 ctx.fillStyle = '#c8a96e';
+695|                 ctx.font = '7px Georgia';
+696|                 ctx.textAlign = 'center';
+697|                 ctx.fillText(npc.name, npc.x, npc.y - 24);
+698|                 ctx.textAlign = 'left';
+699|             }
+700|         }
+701|         
+702|         // Render particles
+703|         for (const p of this.particles) {
+704|             ctx.globalAlpha = p.life;
+705|             ctx.fillStyle = p.color;
+706|             ctx.beginPath();
+707|             ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+708|             ctx.fill();
+709|         }
+710|         ctx.globalAlpha = 1;
+711|         
+712|         // === PLAYER ===
+713|         const playerState = this.player.getRenderState();
+714|         const playerSprite = this.assets.getSprite('player', playerState.direction);
+715|         ctx.drawImage(playerSprite, playerState.x, playerState.y);
+716|         
+717|         // Player trail (qi footprints)
+718|         for (const trail of playerState.trail) {
+719|             ctx.globalAlpha = trail.life * 0.2;
+720|             ctx.fillStyle = '#e8c88a';
