@@ -20,6 +20,10 @@ export class Menu {
         this.animating = false;
         this.animationProgress = 0;
         this.fontFamily = '"Georgia", serif';
+        
+        // Callbacks set by Game
+        this.onSave = null;
+        this.onLoad = null;
     }
 
     /**
@@ -49,6 +53,18 @@ export class Menu {
         if (input.isKeyJustPressed('Escape')) {
             this.toggle();
             return true;
+        }
+        
+        // Save/Load hotkeys in settings tab
+        if (this.currentTab === 'settings') {
+            if (input.isKeyJustPressed('s') || input.isKeyJustPressed('S')) {
+                if (this.onSave) this.onSave();
+                return true;
+            }
+            if (input.isKeyJustPressed('l') || input.isKeyJustPressed('L')) {
+                if (this.onLoad) this.onLoad();
+                return true;
+            }
         }
 
         // Tab navigation with number keys
@@ -593,8 +609,28 @@ export class Menu {
             cy += 20;
         }
         
-        // Game stats
-        cy += 20;
+        // Save / Load buttons
+        cy += 10;
+        ctx.fillStyle = '#4a8aff';
+        ctx.font = `bold 12px ${this.fontFamily}`;
+        ctx.fillText('[S] Save Game', x + 20, cy);
+        cy += 18;
+        ctx.fillStyle = '#88cc44';
+        ctx.font = `bold 12px ${this.fontFamily}`;
+        ctx.fillText('[L] Load Game', x + 20, cy);
+        cy += 24;
+        
+        // Save meta info
+        if (this._saveMeta) {
+            ctx.fillStyle = '#5a5a60';
+            ctx.font = '9px Georgia';
+            ctx.fillText(`Last save: ${this._saveMeta.date || 'unknown'}`, x + 20, cy);
+            cy += 15;
+            ctx.fillText(`Level ${this._saveMeta.level} · ${this._saveMeta.entries} entries · ${this._saveMeta.harvests} harvests`, x + 20, cy);
+            cy += 24;
+        }
+        
+        // About
         ctx.fillStyle = '#c8a96e';
         ctx.font = `bold 12px ${this.fontFamily}`;
         ctx.fillText('About Inner Garden', x, cy);
@@ -610,5 +646,12 @@ export class Menu {
         ctx.fillStyle = '#3a3a40';
         ctx.font = '8px Georgia';
         ctx.fillText('v0.1.0 — Inner Garden', x, y + h - 10);
+    }
+    
+    /**
+     * Update save metadata for display
+     */
+    setSaveMeta(meta) {
+        this._saveMeta = meta;
     }
 }

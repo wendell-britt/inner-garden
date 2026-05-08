@@ -16,6 +16,7 @@ import { HUD } from '../ui/HUD.js';
 import { Menu } from '../ui/Menu.js';
 import { DialogBox } from '../ui/DialogBox.js';
 import { SceneManager } from '../systems/SceneManager.js';
+import { SaveManager } from '../systems/SaveManager.js';
 import { EmotionTypes } from '../data/Emotions.js';
 
 export class Game {
@@ -42,6 +43,25 @@ export class Game {
         // UI
         this.hud = new HUD(canvas);
         this.menu = new Menu(canvas);
+        this.menu.onSave = () => {
+            const gs = this._buildGameState();
+            if (this.saves && this.saves.saveImmediate(gs)) {
+                const meta = this.saves.getSaveMeta();
+                this.menu.setSaveMeta(meta);
+                this.hud.notify('Game saved! 💾', '#4a8aff');
+            } else {
+                this.hud.notify('Save failed!', '#ff4444');
+            }
+        };
+        this.menu.onLoad = () => {
+            const gs = this._buildGameState();
+            if (this.saves && this.saves.load(gs)) {
+                this.hud.notify('Game loaded! 📂', '#88cc44');
+                this.menu.setSaveMeta(this.saves.getSaveMeta());
+            } else {
+                this.hud.notify('No save found.', '#8a8a60');
+            }
+        };
         this.dialog = new DialogBox(canvas);
         
         // Game state
@@ -86,12 +106,38 @@ export class Game {
         // Story system
         this.story = new SceneManager(this);
         
+        // Save system
+        this.saves = new SaveManager();
+        
         // Dialog callbacks
         this.dialog.onChoice = (action, choice) => this._handleDialogChoice(action, choice);
         this.dialog.onJournalSubmit = (entry) => this._handleJournalSubmit(entry);
         
         // Track state for debug HUD
         this._syncState();
+    }
+
+    /**
+     * Build a game state object for the save system
+     */
+    _buildGameState() {
+        return {
+            player: this.player,
+            cultivation: this.cultivation,
+            emotion: this.emotion,
+            farming: this.farming,
+            story: this.story,
+            quests: this.quests
+        };
+    }
+
+    /**
+     * Auto-save: mark save as dirty (debounced)
+     */
+    _autoSave() {
+        if (this.saves) {
+            this.saves.markDirty(this._buildGameState());
+        }
     }
 
     /**
@@ -207,10 +253,26 @@ export class Game {
         this.running = true;
         this.lastTime = performance.now();
         
-        // Show initial prologue scene
-        setTimeout(() => {
-            this.story.startScene('prologue', 'welcome');
-        }, 1500);
+        // Check for existing save
+        const gameState = this._buildGameState();
+        const loaded = this.saves.load(gameState);
+        
+        if (loaded) {
+            this.menu.setSaveMeta(this.saves.getSaveMeta());
+            setTimeout(() => {
+                this.hud.notify('Welcome back, cultivator. 🌱', '#88cc44');
+            }, 500);
+        } else {
+            // First-time player — show prologue
+            setTimeout(() => {
+                this.story.startScene('prologue', 'welcome');
+            }, 1500);
+        }
+        
+        // Save on window close
+        window.addEventListener('beforeunload', () => {
+            this.saves.saveImmediate(this._buildGameState());
+        });
         
         this._gameLoop(performance.now());
     }
@@ -351,6 +413,7 @@ export class Game {
         if (this.gameState === 'meditation' && !meditating) {
             this.gameState = 'playing';
             this.input.clearKeys(); // Prevent ghost movement from stale keys
+            this._autoSave(); // Save after meditation
             // Notify when stopping meditation with quality info
             if (meditationResult.hasSeedToBoost) {
                 this.hud.notify(`Meditation complete. Seed quality: ${Math.round(meditationResult.currentQuality)}`, '#88cc44');
@@ -529,6 +592,7 @@ export class Game {
                             const result = this.cultivation.consumeFruit(fruit);
                             this.quests.updateProgress('crop_harvested', { emotionId: fruit.emotionId });
                             this._spawnParticles(plot.x, plot.y, fruit.emotionId);
+                            this._autoSave();
                             
                             // Tutorial: first harvest
                             if (!this.story.getFlag('first_harvest')) {
@@ -565,6 +629,7 @@ export class Game {
                                     this.player.startAction('watering', 300);
                                     this.hud.notify(`Watered crop 💧 (${Math.round(can.water)}/${can.maxWater})`, '#4a8aff');
                                     this._spawnParticles(plot.x + 16, plot.y, 'water');
+                                    this._autoSave();
                                     
                                     // Tutorial: first water
                                     if (!this.story.getFlag('first_water')) {
@@ -586,6 +651,7 @@ export class Game {
                             this.hud.notify('Planted a seed! 🌱', '#88cc44');
                             this.quests.updateProgress('seed_created', { emotionId: seed.emotionId });
                             this._spawnParticles(plot.x, plot.y, seed.emotionId);
+                            this._autoSave();
                             
                             // Tutorial: first plant
                             if (!this.story.getFlag('first_plant')) {
@@ -654,6 +720,9 @@ export class Game {
         
         // Update quest progress
         this.quests.updateProgress('journal_entry', { count: this.emotion.getEntryCount() });
+        
+        // Auto-save after journal entry
+        this._autoSave();
     }
 
     /**

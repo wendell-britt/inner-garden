@@ -48,6 +48,11 @@ export class SceneManager {
     }
 
     /**
+
+    getAllFlags() {
+        return { ...this.flags };
+    }
+
      * Check conditions object — supports { flags: {...}, hasTool: 'id', notHasTool: 'id' }
      */
     checkConditions(condition) {
