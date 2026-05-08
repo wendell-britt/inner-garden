@@ -26,17 +26,30 @@ export class AssetLoader {
     getSprite(name, ...params) {
         const key = name + (params.length ? '_' + params.join('_') : '');
         
-        // Check PNG cache
+        // Check PNG cache for the exact key (e.g. 'player_down', 'crop_seed_anger')
         if (this.pngCache.has(key)) {
-            const cached = this.pngCache.get(key);
-            if (cached) return cached;
+            return this.pngCache.get(key);
         }
         
-        // Check if we have a PNG for the base name (without params)
-        const baseKey = name;
-        if (this.pngCache.has(baseKey)) {
-            const cached = this.pngCache.get(baseKey);
-            if (cached) return cached;
+        // Check for two-part key (e.g. 'crop_seed' for all emotions)
+        if (params.length >= 2) {
+            const twoPart = name + '_' + params[0];
+            if (this.pngCache.has(twoPart)) {
+                return this.pngCache.get(twoPart);
+            }
+        }
+        
+        // Check one-part key (e.g. 'player' for all directions)
+        if (params.length >= 1) {
+            const onePart = name + '_' + params[0];
+            if (this.pngCache.has(onePart)) {
+                return this.pngCache.get(onePart);
+            }
+        }
+        
+        // Check base name (no params — e.g. 'tree', 'rock')
+        if (this.pngCache.has(name)) {
+            return this.pngCache.get(name);
         }
         
         // Fall back to procedural generation
@@ -57,14 +70,32 @@ export class AssetLoader {
     async loadAll() {
         if (this._loaded) return;
         
+        // Build manifest — base names + emotion variants
+        const emotions = ['anger', 'sadness', 'fear', 'joy', 'neutral'];
+        const stages = ['seed', 'sprout', 'bud', 'flower', 'fruit'];
+        
         const manifest = [
-            'player', 'npc_sage', 'npc_merchant', 'npc_disciple',
+            // Player directions
+            'player_down', 'player_up', 'player_left', 'player_right',
+            // NPCs
+            'npc_sage', 'npc_merchant', 'npc_disciple',
+            // Tiles
             'tile_grass', 'tile_dirt', 'tile_water', 'tile_path', 'tile_soil', 'tile_fence',
-            'crop_seed', 'crop_sprout', 'crop_bud', 'crop_flower', 'crop_fruit',
+            // World objects
             'tree', 'rock', 'building_temple', 'building_house',
+            // Tools
             'watering_can',
+            // UI / effects
             'interact_talk', 'interact_water', 'interact_plant', 'interact_harvest',
-            'meditation_glow', 'emotion_orb', 'heart', 'sparkle'
+            'meditation_glow', 'heart', 'sparkle', 'highlight',
+            // Emotion orbs (anger, sadness, fear, joy, neutral)
+            ...emotions.map(e => `emotion_orb_${e}`),
+            // Seed items
+            ...emotions.map(e => `seed_item_${e}`),
+            // Fruits
+            ...emotions.map(e => `fruit_${e}`),
+            // Crop stages × emotions (5×5 = 25 sprites)
+            ...stages.flatMap(s => emotions.map(e => `crop_${s}_${e}`))
         ];
         
         const promises = manifest.map(name => this._tryLoad(name));
