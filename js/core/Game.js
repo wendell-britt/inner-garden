@@ -17,6 +17,7 @@ import { Menu } from '../ui/Menu.js';
 import { DialogBox } from '../ui/DialogBox.js';
 import { SceneManager } from '../systems/SceneManager.js';
 import { SaveManager } from '../systems/SaveManager.js';
+import { AssetLoader } from './AssetLoader.js';
 import { EmotionTypes } from '../data/Emotions.js';
 
 export class Game {
@@ -28,7 +29,8 @@ export class Game {
         // Core
         this.input = new Input();
         this.camera = new Camera(canvas.width, canvas.height);
-        this.assets = new AssetGenerator();
+        this.assetGen = new AssetGenerator();
+        this.assets = new AssetLoader(this.assetGen);
         
         // Systems
         this.player = new Player(400, 300);
