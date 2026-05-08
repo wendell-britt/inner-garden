@@ -18,16 +18,19 @@ class Boot {
     async init() {
         console.log('⟡ Inner Garden — Loading...');
         
-        // Simulate loading steps with progress updates
-        await this._loadStep(20, 'Cultivating world...');
-        await this._loadStep(40, 'Planting seeds...');
-        await this._loadStep(60, 'Gathering qi...');
-        await this._loadStep(80, 'Awakening inner garden...');
+        await this._loadStep(15, 'Cultivating world...');
         
-        // Create and start the game
+        // Create game (initializes systems, procedural assets)
         this.game = new Game(this.canvas);
         
-        await this._loadStep(100, 'Entering cultivation...');
+        await this._loadStep(40, 'Planting seeds...');
+        
+        // Load PNG sprite assets (falls back to procedural if not found)
+        await this._loadStep(60, 'Loading sprites...');
+        await this.game.assets.loadAll();
+        
+        await this._loadStep(80, 'Gathering qi...');
+        await this._loadStep(100, 'Awakening inner garden...');
         
         // Hide loading screen
         setTimeout(() => {
