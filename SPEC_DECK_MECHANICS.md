@@ -159,6 +159,44 @@ Player can mix cards from any manual they own into a custom deck:
 
 ---
 
+## Home Nation Assignment (Design Proposals)
+
+The player's starting nation determines their first manual. Three possible methods:
+
+| Method | How It Works | Pros | Cons |
+|--------|-------------|------|------|
+| **Trigram Quiz** | At character creation, answer 3-4 philosophical questions aligned with the trigram manifestos. Result determines nation. | Feels diegetic, introduces trigrams immediately | Player might not get the nation they wanted visually |
+| **Free Choice** | Pick any of the 5 nations from a menu. Brief description of each. | Maximum player agency | No lore introduction at start |
+| **Tutorial Default** | All players start in Argyra (balanced, Lake trigram). Nation choice unlocks later via wandering cultivator. | Simplest onboarding | Reduces replay value |
+
+**Proposal:** Trigram Quiz for first playthrough, Free Choice on New Game+.
+
+---
+
+## Wandering Cultivator Pipeline (Design Proposals)
+
+### When They Appear
+
+| Milestone | Event |
+|-----------|-------|
+| Complete home nation manual (13/13) | First wandering cultivator appears at edge of home garden |
+| Each subsequent manual completed | Another wanderer appears — from a nation you haven't visited yet |
+| Border sect unlocked (Mountain or Thunder) | Wanderers from rival nations appear in neutral zone |
+
+### The 5th Nation Problem
+
+The player starts in 1 of 5 nations. They meet 3 more through wandering cultivators. The 5th nation has no natural wanderer source — unless:
+
+| Solution | How It Works | Lore Fit |
+|----------|-------------|----------|
+| **Heaven Sect as Hub** | Floating Heaven trigram has no territory. Wanderers from ALL nations pass through it. 5th nation rep met here. | Strong — Heaven is canonically "no fixed ground" |
+| **Border Sect Exchange** | Mountain sect (Argyra↔Meridia) and Thunder sect (Pyrakanth↔Virelune). Completing both reveals hidden passage to the remaining nation. | Strong — makes border sects meaningful |
+| **Dual-Wanderer Nation** | One nation produces 2 wanderers. The 5th nation is never met directly until custom decks unlock. | Weaker — feels arbitrary |
+
+**Proposal:** Heaven Sect as primary path + Border Sect Exchange as alternate.
+
+---
+
 ### Wandering Cultivator Backstories (Design Template)
 
 Every wandering cultivator NPC has:
