@@ -3,6 +3,8 @@
 > Based on lore docs in `lore/Calrunia Game World/`
 > 8 Trigram NPCs, 4 Pantheon Deities, 5 Nations concept
 
+**See also:** [BARS_ENGINE_INNER_GARDEN_GAP.md](BARS_ENGINE_INNER_GARDEN_GAP.md) — cross-repo comparison with **bars-engine** (BAR platform vs Inner Garden canvas), shared contracts, and integration tiers. Fifth nation canon: [Calrunia Game World/NATIONS_CANON.md](Calrunia%20Game%20World/NATIONS_CANON.md).
+
 ---
 
 ## What We Have (Lore Side)
@@ -35,7 +37,9 @@
 
 ### The 5 Nations (Concept)
 
-Based on filenames: Argyra, Pyrakanth, Meridia, Lamenth — and a fifth unnamed in the group shot. Each has concept art mockups.
+**Canon (integrity pass 2026-05-08):** All five nations are **named**: Argyra, Pyrakanth, Meridia, Lamenth, **Virelune** (fifth — often only in group concept art; was unnamed in older drafts). EA channels and sects: [Calrunia Game World/NATIONS_CANON.md](Calrunia%20Game%20World/NATIONS_CANON.md).
+
+Concept art filenames may still list only four; treat **NATIONS_CANON** as naming authority for tools.
 
 ---
 

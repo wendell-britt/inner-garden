@@ -3,6 +3,10 @@
 > A game about transforming real emotions into virtual power.
 > Two types of content: **Game Content** (narrative, world, mechanics) and **User Generated Content** (journal entries, emotional data, harvested cards).
 
+**Calrunia canon for tools/agents:** [Calrunia Game World/NATIONS_CANON.md](Calrunia%20Game%20World/NATIONS_CANON.md) — five nations (including **Virelune**), EA channels, sects. Generative Q&A pass: [Calrunia Game World/GENERATIVE_QUESTIONS_WORKTHROUGH.md](Calrunia%20Game%20World/GENERATIVE_QUESTIONS_WORKTHROUGH.md).
+
+**bars-engine bridge (inventory + low-hanging fruit):** [BARS_ENGINE_INNER_GARDEN_GAP.md](BARS_ENGINE_INNER_GARDEN_GAP.md).
+
 ---
 
 ## 1. The Four Pillars (Core Game Loop)
@@ -37,7 +41,71 @@ The main gameplay loop — consistent engagement.
 
 ---
 
-## 2. Combat System
+## 2. Travel between nations (design canon)
+
+Canonical detail and rationale live in [Calrunia Game World/GENERATIVE_QUESTIONS_WORKTHROUGH.md](Calrunia%20Game%20World/GENERATIVE_QUESTIONS_WORKTHROUGH.md) §Q2 (locked 2026-05-09). Summary for implementation alignment:
+
+- **Home nation** start; **five** distinct home footprints; **character creation** up front; world **opens** on **story + character**, not grind.
+- **Border guard** teaches requirements to **leave home**; two **story** passes — **sect leader** and **nation head** — **order is player-chosen** (branching).
+- **Travel payoff:** nation-lensed **moves** / alchemy; **foreign** treatment modulated by **nation and sect** relations.
+- **Fast travel:** expensive without **patronage**; **story-unlocked fast travel home** supports **home BAR / seed tending**. **Temple** routes cost **story / Qi / emotion**, not mainly coin; **non-temple** fast travel stays **economic + patronage**.
+- **Foreign borders on foot:** **mixed** symmetry (one-way or re-locked borders allowed). **Remote plots:** climate and travel friction; **no** dedicated remote-plot cap/decay for now.
+- **Five border guard NPCs:** same **role archetype**, different **national flavor**.
+- **Deferred:** how **bars-engine** / journal state gates **readiness to petition** for each pass (soft vs hard vs flags-only).
+
+---
+
+## 3. Nation gardens and soil (design canon)
+
+Full notes: [Calrunia Game World/GENERATIVE_QUESTIONS_WORKTHROUGH.md](Calrunia%20Game%20World/GENERATIVE_QUESTIONS_WORKTHROUGH.md) §Q3 (locked 2026-05-09). Summary:
+
+- **Scenes / plots:** **Not** limited forever to a **single** garden map; **multiple scenes or instanced tillable plots** may ship **early** if cost is low (still not a requirement for **five** full nation-sized gardens at MVP).
+- **Sites:** **Home** anchor plus **remote / regional** tillable tiles as the world and [§2 travel](#2-travel-between-nations-design-canon) grow; **climate and travel** stay the main remote friction (per Q2).
+- **Nation soil:** **Mechanical** modifiers — growth, yield bands, mutations, **mismatch penalties or bonuses**; teach at **advanced** tutorial depth.
+- **Cross-planting:** **Allowed**; mismatch is **systemic cost**, not a default ban.
+- **Deferred:** whether **“Inner Garden”** names the whole product, the **home** plot, or both in different contexts — **TBD**.
+
+---
+
+## 4. World map, bars forest, and trigram faces (design canon)
+
+Details: [Calrunia Game World/GENERATIVE_QUESTIONS_WORKTHROUGH.md](Calrunia%20Game%20World/GENERATIVE_QUESTIONS_WORKTHROUGH.md) §Q4–Q8 (2026-05-10). Summary:
+
+- **Nation ↔ element (Wu Xing shorthand):** **Argyra — Metal; Pyrakanth — Fire; Virelune — Wood; Meridia — Earth; Lamenth — Water** — same as [NATIONS_CANON.md](Calrunia%20Game%20World/NATIONS_CANON.md) EA channel column.
+- **Map model:** **Hybrid** — **fixed** authored map for **story** continuity; **procedural forest** (or equivalent exploratory space) driven by **bars-engine** / **emergent player need** (BAR-linked — implementation TBD in gap doc).
+- **Trigram friction (Q6):** **Open** until **surfaces** (where pair-friction lives) and **trigram ↔ bars-engine archetype** mapping are specified.
+- **Who “is” the trigram (Q7):** **Templates**; **sect heads** are the primary **faces**; sect **members share archetype**, not necessarily **nation**.
+- **Changing minds (Q8):** **No** dedicated **flip-NPC-decision** mechanics yet; **story / template** hooks allowed once **opinion → narrative** surfaces exist.
+
+---
+
+## 5. NPC services, sect standing, and pantheon (design canon)
+
+Details: [Calrunia Game World/GENERATIVE_QUESTIONS_WORKTHROUGH.md](Calrunia%20Game%20World/GENERATIVE_QUESTIONS_WORKTHROUGH.md) §Q9–Q13 (2026-05-10). Summary:
+
+- **NPC services (Q9):** **Any** NPC can **quest / sell / teach** when the game supports it. **Quests and abilities are cards** (same broad card model). **Sect / trigram–aligned** NPCs give **sect-flavored** quests.  
+- **“Alignment” (Q10):** No separate trigram tally — use **sect contribution / standing** in the player’s **sect** as the primary **alignment** analogue.  
+- **First Cultivators (Q11):** Discovery through **lore** plus **milestone NPC** beats.  
+- **S / D / N (Q12):** **Emotional-alchemy elements**; **energy** from each stance’s levels **applies differently** across systems (pipelines TBD).  
+- **Pantheon (Q13):** Each nation’s **S/D/N = its three First Cultivators**; **15** total — **many names still WIP** in repo text ([NATIONS_CANON.md](Calrunia%20Game%20World/NATIONS_CANON.md)).
+
+---
+
+## 6. Genre, journal politics, pacing, and empty-deck rule (design canon)
+
+Details: [Calrunia Game World/GENERATIVE_QUESTIONS_WORKTHROUGH.md](Calrunia%20Game%20World/GENERATIVE_QUESTIONS_WORKTHROUGH.md) §Q14–Q20. Summary:
+
+- **Q14 “achieving heaven”:** **Cultivation level / tier bands** are the mechanical spine; **lore** (Kerath, Verathane, etc.) **dresses** those beats. Reward tables per band **Open**.  
+- **Q15:** **Gardening and card battles equally** co-primary for pitch and long-term design (vertical slice order may still favor garden first).  
+- **Q16:** Journal **biases** nation **flavor** on seeds/cards (no forced nationality); **mid-game** **political ripples** (reputation / branches).  
+- **Q17:** Same as [§3](#3-nation-gardens-and-soil-design-canon) / workthrough **Q3** (nation soil modifiers, cross-planting).  
+- **Q18:** **Empty deck** → **retreat / exit** and earn cards through **journal + harvest** (or acquisition); **no** silent auto-filler deck for combat.  
+- **Q19:** Voice/register — **proposal only** in workthrough (deferred).  
+- **Q20:** **Nation and sect arcs parallel** (not globally hour-gated); **~20h design budget per arc** after you commit to that thread.
+
+---
+
+## 7. Combat System
 
 ### Real-time with Time-Freeze Cards
 
@@ -78,7 +146,7 @@ Encounter starts
 
 ---
 
-## 3. Card System
+## 8. Card System
 
 ### Card Sources
 
@@ -162,7 +230,7 @@ Pattern: `[EmotionAdjective] [Noun]` where:
 
 ---
 
-## 4. Save File
+## 9. Save File
 
 ### What Persists
 
@@ -191,7 +259,7 @@ Manual save: Menu option
 
 ---
 
-## 5. Battle Card Layout (Mock)
+## 10. Battle Card Layout (Mock)
 
 ```
  ┌──────────────────────┐
@@ -211,7 +279,7 @@ Manual save: Menu option
 
 ---
 
-## 6. Implementation Plan (Ordered)
+## 11. Implementation Plan (Ordered)
 
 ### Phase 1: Save System
 - `js/systems/SaveManager.js` — Read/write to localStorage
@@ -247,7 +315,7 @@ Manual save: Menu option
 
 ---
 
-## 7. Folder Structure (Updated)
+## 12. Folder Structure (Updated)
 
 ```
 js/
@@ -286,7 +354,7 @@ js/
 
 ---
 
-## 8. Elemental Advantage — Wu Xing Generation Cycle
+## 13. Elemental Advantage — Wu Xing Generation Cycle
 
 Adopted from the Five Elements (Wu Xing) theory:
 
@@ -309,14 +377,14 @@ Example: Playing a 🌳 Wood card during a 💧 Water demon encounter generates 
 > If your card's element generates the demon's element in the cycle, gain +1 Qi.
 > (e.g. Wood → Fire: playing Wood while fighting a Fire demon generates Qi)
 
-## 9. Player Progression (Start State)
+## 14. Player Progression (Start State)
 
 The player starts with nothing. No deck, no seeds, no tools.
 - The entire tutorial (prologue + first journal + first plant + watering can from Wu) must be completed before the player has anything resembling a working deck
 - The first harvest gives the first card
 - Cards accumulate over sessions — persistence is essential
 
-## 10. Open Questions (Deferred)
+## 15. Open Questions (Deferred)
 
 - Should Inner Demons use the EXACT text from journal entries? (e.g. "Shadow of 'I felt angry at my boss'")
 - Elemental advantage: flat multiplier or rock-paper-scissors?
