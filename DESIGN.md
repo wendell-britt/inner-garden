@@ -230,7 +230,88 @@ Pattern: `[EmotionAdjective] [Noun]` where:
 
 ---
 
-## 9. Save File
+## 9. Five Nations of Calrunia (World Design)
+
+Canon source: [NATIONS_CANON.md](Calrunia%20Game%20World/NATIONS_CANON.md) — full Q&A: [GENERATIVE_QUESTIONS_WORKTHROUGH.md](Calrunia%20Game%20World/GENERATIVE_QUESTIONS_WORKTHROUGH.md).
+
+| Nation | EA Channel (Emotion) | National Trigram | Secondary Trigram | Border |
+|--------|---------------------|------------------|-------------------|--------|
+| **Argyra** | Metal / Fear | Lake | Mountain | Argyra ↔ Meridia |
+| **Pyrakanth** | Fire / Anger | Fire | Thunder | Pyrakanth ↔ Virelune |
+| **Virelune** | Wood / Joy | Wind | Thunder | (rival tension with Pyrakanth) |
+| **Meridia** | Earth / Neutrality | Earth | Mountain | (shared stillness with Argyra) |
+| **Lamenth** | Water / Sadness | Water | Wind | grief that moves through |
+
+**8 Sects:** 5 national + 2 border (Mountain, Thunder) + 1 floating (Heaven).
+
+**Genre:** Tactical RPG (gridless). Encounters use gridless tactical compass (card-range, line-of-sight, positioning). Not a Slay-the-Spire lane system.
+
+### Regional Gardening
+- Each nation has distinct soil identities — mechanical modifiers on growth rate, yield bands, mutation tables.
+- Cross-planting (Virelune seed in Argyran soil) has penalties or bonuses based on elemental compatibility.
+- Remote tillable sites beyond the home garden exist but are not required for first ship.
+
+### Travel Between Nations
+- Travel is gated by cultivation tier and story milestones (discovery, not combat).
+- Each region opens up one-way until the player reaches a key milestone that allows return.
+- "Journey Begins" map-state: the player's home garden is their starting nation.
+
+---
+
+## 10. Pantheon (15 Aspected Gods)
+
+Canon source: [GENERATIVE_QUESTIONS_WORKTHROUGH.md](Calrunia%20Game%20World/GENERATIVE_QUESTIONS_WORKTHROUGH.md) §12–13.
+
+**Structure:** 5 nations × 3 aspects = 15 First Cultivators.
+
+| Aspect | Function | Related Trigram |
+|--------|----------|----------------|
+| **Satisfaction** | Promotes Transcend moves | Lake, Heaven, Fire |
+| **Dissatisfaction** | Promotes Descend + Control moves | Thunder, Water, Wind |
+| **Neutral** | Accesses both (underpowered, sustainable) | Mountain, Earth |
+
+**Documented in-repo:** Argyran triad (Verathane-Satisfaction, Kerath-Dissatisfaction, Caelath-Neutral), Pyrakanth Dissatisfaction (Cindrel). Remaining 11 aspect-names are canon in vault but not yet promoted to this repo.
+
+**Discovery:** Via trigram advocates — each advocate's alignment (S/D/N) determines which aspect they represent. Player alignment is the weighted average of choices made during trigram friction encounters.
+
+---
+
+## 11. Cultivation Heaven Bands
+
+Canon stub: [CULTIVATION_HEAVEN_BANDS.md](Calrunia%20Game%20World/CULTIVATION_HEAVEN_BANDS.md).
+
+| Band | Name | Range | Gates |
+|------|------|-------|-------|
+| `band_0` | Mortal / Tutorial | — | Prologue, base garden, combat tutorial |
+| `band_1` | TBD | e.g. 1–3 | First nation unlock |
+| `band_2` | TBD | e.g. 4–6 | Second nation + border region |
+| `band_3` | TBD | e.g. 7–9 | Third nation, pantheon discovery |
+| `band_heaven` | Heaven Prestige | top | Ascension-flavored cards, optional endgame |
+
+**Rule:** Bands gate systems; main story does not require top band. Wire via `HEAVEN_BANDS` config in `CultivationSystem.js`.
+
+---
+
+## 12. Trigram NPCs (8 Design Advocates)
+
+Each trigram is an NPC with a named design philosophy, a friction enemy, and a service to the player.
+
+| Trigram | NPC Name | Philosophy | Friction With | Service |
+|---------|----------|------------|---------------|---------|
+| Heaven | The Bold Heart | First precision, decisive action | Earth | Unlocks first nation travel |
+| Earth | The Devoted Guardian | Warmth, care, iteration | Heaven | TBD |
+| Fire | The Truth Seer | Clarity, illumination | Mountain | Reveals card metadata |
+| Water | The Danger Walker | Depth, navigation of complexity | Lake | Inner demon location |
+| Wind | The Subtle Influence | Gradual change, shaping | Thunder | Cross-planting unlocks |
+| Thunder | The Decisive Storm | Breakthrough, disruption | Wind | Battle system unlock |
+| Mountain | The Still Point | Boundaries, restraint | Fire | Meditation upgrades |
+| Lake | The Joyful Connector | Shared delight, beauty | Water | Card sharing / trade |
+
+**Friction Encounters:** Paired trigrams that disagree (e.g. Heaven vs Earth). Player witnesses their debate and chooses a path — this choice affects alignment (Satisfaction/Dissatisfaction/Neutral) and unlocks different rewards.
+
+---
+
+## 13. Save File
 
 ### What Persists
 
@@ -281,9 +362,9 @@ Manual save: Menu option
 
 ## 11. Implementation Plan (Ordered)
 
-### Phase 1: Save System
+### Phase 1: Save System ✅ (Done)
 - `js/systems/SaveManager.js` — Read/write to localStorage
-- Save/load player state, deck, farm, story flags
+- Save/load player state, deck, farm, story flags, story flags
 - Auto-save hooks in Game.js
 
 ### Phase 2: Card Data Model
@@ -296,21 +377,44 @@ Manual save: Menu option
 - Sort by element, rarity, level
 - Select cards for battle loadout
 
-### Phase 4: Basic Battle System
+### Phase 4: Trigram NPCs (8 Advocates)
+- 8 trigram NPCs with manifestos and friction pairs
+- Friction encounters (philosophical debates with alignment choices)
+- Each NPC grants a unique service unlock
+- Alignment tracking (Satisfaction/Dissatisfaction/Neutral)
+
+### Phase 5: Battle System (Tactical RPG, Gridless)
 - `js/systems/BattleSystem.js` — Turn structure, Qi management
 - `js/entities/Enemy.js` — World enemy and inner demon
 - Real-time movement + time-freeze hand
+- Card range, line-of-sight, positioning
 - Card resolution and damage calculation
 
-### Phase 5: Full Encounter Pipeline
+### Phase 6: Five Nations World
+- 5 nations with distinct soil mechanics, climate, seed modifiers
+- Travel gated by cultivation tier + story milestones
+- Home garden in starting nation; remote tillable sites per nation
+
+### Phase 7: Full Encounter Pipeline
 - World map / encounter nodes
 - Inner demon generation from journal data
 - Rewards pipeline (story flags, card seeds, exp)
+- Pantheon alignment tracking
 
-### Phase 6: Polish
+### Phase 8: Cultivation Heaven Bands
+- Tiered unlocks (band_0 through band_heaven)
+- Each band gates systems, not story
+- `HEAVEN_BANDS` config in CultivationSystem.js
+
+### Phase 9: Cutscenes & Story
+- Camera movement, timed dialog reveals
+- Chapter transitions
+- Friction encounter cutscenes
+
+### Phase 10: Polish
 - Card animations (play, draw, discard)
 - Enemy attack patterns
-- Elemental advantage system (Fire beats Wood, Wood beats Water, etc.)
+- Elemental advantage system (Wu Xing generation cycle)
 - Defeat → forced meditation → retry
 
 ---
@@ -343,10 +447,14 @@ js/
 │   ├── Quests.js
 │   ├── Seeds.js
 │   ├── Cards.js           ← NEW
-│   └── StoryScript.js     ← NEW
-└── ui/
-    ├── HUD.js
-    ├── Menu.js
+│   ├── Nations.js         ← NEW (five nations + soil data)
+│   ├── Trigrams.js        ← NEW (8 trigram NPC data)
+│   ├── Pantheon.js        ← NEW (15 aspected gods)
+│   └── StoryScript.js
+├── ui/
+│   ├── HUD.js
+│   ├── Menu.js
+│   └── BattleUI.js        ← NEW
     ├── DialogBox.js
     ├── CardView.js         ← NEW
     └── BattleUI.js         ← NEW

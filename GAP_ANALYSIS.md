@@ -3,6 +3,8 @@
 > Based on lore docs in `lore/Calrunia Game World/`
 > 8 Trigram NPCs, 4 Pantheon Deities, 5 Nations concept
 
+**Status:** Design spec updated with canon from [GENERATIVE_QUESTIONS_WORKTHROUGH.md](Calrunia%20Game%20World/GENERATIVE_QUESTIONS_WORKTHROUGH.md). All 20 questions answered. Implementation phases 4-9 in `DESIGN.md` now reflect canon.
+
 **See also:** [BARS_ENGINE_INNER_GARDEN_GAP.md](BARS_ENGINE_INNER_GARDEN_GAP.md) — cross-repo comparison with **bars-engine** (BAR platform vs Inner Garden canvas), shared contracts, and integration tiers. Fifth nation canon: [Calrunia Game World/NATIONS_CANON.md](Calrunia%20Game%20World/NATIONS_CANON.md).
 
 ---
