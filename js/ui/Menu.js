@@ -6,6 +6,7 @@
 
 import { EmotionTypes } from '../data/Emotions.js';
 import { CultivationLevels } from '../systems/CultivationSystem.js';
+import { ARGYRAN_GATE_MANUAL, getSuitInfo } from '../data/CultivationManuals.js';
 
 export class Menu {
     constructor(canvas) {
@@ -13,8 +14,8 @@ export class Menu {
         this.ctx = canvas.getContext('2d');
         this.isOpen = false;
         this.currentTab = 'cultivation';
-        this.tabs = ['cultivation', 'inventory', 'quests', 'garden', 'settings'];
-        this.tabNames = ['Cultivation', 'Inventory', 'Quests', 'Garden', 'Settings'];
+        this.tabs = ['cultivation', 'manual', 'inventory', 'quests', 'garden', 'settings'];
+        this.tabNames = ['Cultivation', 'Manual', 'Inventory', 'Quests', 'Garden', 'Settings'];
         this.selectedIndex = 0;
         this.scrollOffset = 0;
         this.animating = false;
@@ -153,6 +154,9 @@ export class Menu {
             case 'cultivation':
                 this._renderCultivationTab(ctx, cultivation, contentX, contentY, contentW, contentH);
                 break;
+            case 'manual':
+                this._renderManualTab(ctx, contentX, contentY, contentW, contentH);
+                break;
             case 'inventory':
                 this._renderInventoryTab(ctx, cultivation, emotion, farming, contentX, contentY, contentW, contentH);
                 break;
@@ -171,7 +175,7 @@ export class Menu {
         ctx.fillStyle = '#4a4a50';
         ctx.font = `9px ${this.fontFamily}`;
         ctx.textAlign = 'center';
-        ctx.fillText('Press ESC to close  ·  Tab with 1-5 or ← →', this.canvas.width / 2, this.canvas.height - 10);
+        ctx.fillText('Press ESC to close  ·  Tab with 1-6 or ← →', this.canvas.width / 2, this.canvas.height - 10);
         ctx.textAlign = 'left';
 
         ctx.restore();
@@ -183,7 +187,7 @@ export class Menu {
     _renderTabs(ctx) {
         const tabY = 50;
         let x = 20;
-        const tabWidth = 110;
+        const tabWidth = 100;
 
         for (let i = 0; i < this.tabs.length; i++) {
             const isSelected = this.currentTab === this.tabs[i];
@@ -331,6 +335,49 @@ export class Menu {
                 ctx.fillStyle = '#3a3a40';
                 ctx.fillText(`(EXP: ${level.minExp})`, x + (i % 2) * 160 + 120, refY + 16 + Math.floor(i / 2) * 18);
             }
+        }
+    }
+
+    /**
+     * Cultivation manual — Argyran Gate techniques (allyship deck correlate). See SPEC_DECK_MECHANICS.md.
+     */
+    _renderManualTab(ctx, x, y, w, h) {
+        const manual = ARGYRAN_GATE_MANUAL;
+        ctx.fillStyle = '#c8a96e';
+        ctx.font = `bold 16px ${this.fontFamily}`;
+        ctx.fillText(`Manual — ${manual.name}`, x, y + 18);
+
+        ctx.fillStyle = '#8a8a90';
+        ctx.font = `10px ${this.fontFamily}`;
+        ctx.fillText(`${manual.nation} · ${manual.trigram} sect · 13 techniques (3♠ Wake 3♥ Clean 4♣ Grow 3♦ Show)`, x, y + 36);
+        ctx.fillText('Paired with Allyship Deck V3 (Wake / Clean / Grow / Show). Harvest unlocks combat cards — see design spec.', x, y + 50);
+
+        const sorted = [...manual.cards].sort((a, b) => a.unlockOrder - b.unlockOrder);
+        let rowY = y + 72;
+        const lineH = 36;
+        const maxY = y + h - 20;
+
+        for (const card of sorted) {
+            if (rowY > maxY) break;
+            const su = getSuitInfo(card.suit);
+            const sym = su ? su.symbol : '?';
+            const pillar = su ? su.pillar : '';
+
+            ctx.fillStyle = 'rgba(30, 25, 20, 0.55)';
+            ctx.fillRect(x, rowY, w - 8, lineH - 4);
+            ctx.strokeStyle = '#4a3728';
+            ctx.strokeRect(x, rowY, w - 8, lineH - 4);
+
+            ctx.fillStyle = '#e8d8c0';
+            ctx.font = `bold 10px ${this.fontFamily}`;
+            ctx.fillText(`${card.unlockOrder}. ${sym} ${card.title}`, x + 8, rowY + 12);
+
+            ctx.fillStyle = '#7a7a82';
+            ctx.font = `8px ${this.fontFamily}`;
+            const rec = card.recognition.length > 110 ? `${card.recognition.slice(0, 107)}…` : card.recognition;
+            ctx.fillText(`${pillar} · ${rec}`, x + 8, rowY + 24);
+
+            rowY += lineH;
         }
     }
 

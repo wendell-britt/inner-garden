@@ -35,7 +35,19 @@ export const StoryChapters = {
             style: 'npc',
             choices: [
                 { text: 'How do I journal?', nextScene: 'wu_journal_help' },
+                { text: 'What is a cultivation manual?', nextScene: 'wu_manual_bridge' },
                 { text: 'I understand', nextScene: 'wu_back_to_start' }
+            ]
+        },
+        {
+            id: 'wu_manual_bridge',
+            speaker: 'Master Wu',
+            speakerColor: '#c8a96e',
+            text: 'In Calrunia, techniques are collected into **manuals** — thirteen moves that hang together like a teaching.\n\nYour first manual is the **Argyran Gate**: Wake Up, Clean Up, Grow Up, and Show Up — the same four gates many allies learn in the outer world.\n\nOpen the menu (I) and the **Manual** tab to read each technique. The Recognition lines are questions a serious ally asks in the moment; the Moves are what you practice.\n\nHarvests will one day unlock these as true cards. For now, study the gate.',
+            style: 'npc',
+            choices: [
+                { text: 'How do I journal?', nextScene: 'wu_journal_help' },
+                { text: 'I will open the Manual tab', nextScene: 'wu_back_to_start' }
             ]
         },
         {

@@ -1,6 +1,6 @@
 # Inner Garden — Deck Mechanics Spec
 
-> **Status:** Design spec — no code yet
+> **Status:** Design spec — **partially in runtime:** `js/data/CultivationManuals.js` (Argyran Gate × Allyship V3 text) and **Menu → Manual tab** (press `I`). Harvest/card unlock wiring still TODO.
 > **Related:** [DESIGN.md](DESIGN.md), [GENERATIVE_QUESTIONS_WORKTHROUGH.md](Calrunia%20Game%20World/GENERATIVE_QUESTIONS_WORKTHROUGH.md)
 >
 > **Decks are Cultivation Manuals.** A manual is a fixed set of techniques (cards) the player learns as a coherent system. You cannot swap individual cards until you reach the Custom Deck milestone.

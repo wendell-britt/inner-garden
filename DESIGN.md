@@ -7,6 +7,8 @@
 
 **bars-engine bridge (inventory + low-hanging fruit):** [BARS_ENGINE_INNER_GARDEN_GAP.md](BARS_ENGINE_INNER_GARDEN_GAP.md).
 
+**Cultivation manuals / Allyship Deck correlate:** [SPEC_DECK_MECHANICS.md](SPEC_DECK_MECHANICS.md). In-game: `js/data/CultivationManuals.js` (starter **Argyran Gate**) and **Menu → Manual** (press `I`).
+
 ---
 
 ## 1. The Four Pillars (Core Game Loop)
@@ -149,6 +151,12 @@ Encounter starts
 ---
 
 ## 8. Card System
+
+### Cultivation manuals (lore in client)
+
+- Starter manual **Argyran Gate** (13 techniques) uses **Wake / Clean / Grow / Show** pillars mapped to ♠♥♣♦ per `SPEC_DECK_MECHANICS.md`.
+- Technique text is **paired** with **Allyship Deck V3** prompts (recognition + move) from the MTGOA card library — same four waves, Calrunia packaging.
+- **Manual** menu tab lists all entries for reading; harvest → card unlock and combat stats are **not** wired yet.
 
 ### Card Sources
 
