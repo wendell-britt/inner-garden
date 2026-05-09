@@ -24,31 +24,51 @@
 
 A manual is a fixed 13-card set. Each one covers all 4 suits in a specific ratio determined by its trigram philosophy.
 
-### Ratio by Trigram
+### Fixed Suit Counts (All Manuals Are Balanced)
 
-| Trigram | ♠ Wake | ♥ Clean | ♣ Grow | ♦ Show | Philosophy |
-|---------|--------|---------|--------|--------|------------|
-| **Heaven** (Bold Heart) | 6 | 2 | 3 | 2 | Acts first, grows through insight |
-| **Earth** (Devoted Guardian) | 2 | 6 | 3 | 2 | Cleans and holds space for others |
-| **Fire** (Truth Seer) | 5 | 2 | 4 | 2 | Sees clearly, grows through truth |
-| **Water** (Danger Walker) | 2 | 5 | 4 | 2 | Goes deep, cleans through facing depth |
-| **Wind** (Subtle Influence) | 3 | 4 | 4 | 2 | Shapes gradually, all three middle suits |
-| **Thunder** (Decisive Storm) | 5 | 1 | 5 | 2 | Breaks through, grows or awakens |
-| **Mountain** (Still Point) | 2 | 3 | 6 | 2 | Holds boundaries, grows through stillness |
-| **Lake** (Joyful Connector) | 3 | 3 | 3 | 4 | Shares joy, has the most Show Up cards |
+Every complete 13-card manual has the exact same suit count:
+
+| Suit | Count | Why |
+|------|-------|-----|
+| ♠ Wake Up | **3** | Discovery, insight, intentions |
+| ♥ Clean Up | **3** | Processing, emotional alchemy |
+| ♣ Grow Up | **4** | Leveling, cultivation (slightly more because growth is the core loop) |
+| ♦ Show Up | **3** | Real-world action, consistency |
+
+**Design rule:** No manual ever has fewer than 3 of any suit. No player choice can create an unfillable gap.
+
+The trigram philosophy shifts **card power within each suit**, not the count:
+- A Fire manual has powerful ♠ Wake Up cards (high damage, sharp effects)
+- A Lake manual has powerful ♦ Show Up cards (strong streak bonuses)
+- A Meridia manual has powerful ♦ and ♥ (real-world and processing support)
+- But ALL manuals have exactly 3♠ 3♥ 4♣ 3♦ — the ratio never changes
+
+This ensures: collect any 5 manuals → guaranteed 15+ of each suit → 52-card milestone is reachable regardless of player choices.
+
+### Power Profile by Nation (Suit Counts Are Equal, Power Varies)
+
+| Nation (Trigram) | ♠ Power | ♥ Power | ♣ Power | ♦ Power | Playstyle |
+|------------------|---------|---------|---------|---------|-----------|
+| **Argyra** (Lake) | Medium | Medium | Medium | **High** | Balanced, Show Up focused |
+| **Pyrakanth** (Fire) | **High** | Medium | Low | Medium | Aggressive, Wake Up specialist |
+| **Virelune** (Wind) | Medium | Medium | **High** | Medium | Growth specialist, gradual |
+| **Meridia** (Earth) | Low | Medium | Medium | **High** | Steady, real-world support |
+| **Lamenth** (Water) | Medium | **High** | Medium | Low | Depth, processing mastery |
+
+**The choice of nation changes playstyle flavor, never collection viability.**
 
 ### Manual Examples
 
-| Manual | Trigram | Sample Cards |
-|--------|---------|-------------|
-| **Argyran Nation Manual** | Lake | "Shared Stillness" (♥), "Reflective Surface" (♠), "Joy in Company" (♦) |
-| **Pyrakanth Nation Manual** | Fire | "Burning Truth" (♠), "Cleansing Flame" (♥), "Heat of Growth" (♣) |
-| **Virelune Nation Manual** | Wind | "Gentle Shaping" (♣), "Forest Breath" (♠), "Patient Growth" (♣) |
-| **Meridia Nation Manual** | Earth | "Unshakeable Ground" (♥), "Rooted Strength" (♣), "Welcoming Hearth" (♦) |
-| **Lamenth Nation Manual** | Water | "Depth Gaze" (♥), "Grief Current" (♥), "Still Depths" (♠) |
-| **Mountain Sect Manual** | Mountain | "Unmoved" (♣), "The Gate" (♣), "Boundary Clear" (♥) |
-| **Thunder Sect Manual** | Thunder | "Breaking Point" (♠), "Sudden Growth" (♣), "Storm Clearing" (♠) |
-| **Heaven Sect Manual** | Heaven | "First Stroke" (♠), "Courage to Begin" (♠), "Skyward" (♣) |
+| Manual | Trigram | Power Focus | Sample Cards |
+|--------|---------|-------------|-------------|
+| **Argyran Nation Manual** | Lake | ♦ Show Up | "Shared Stillness" (♥), "Reflective Surface" (♠), "Joy in Company" (♦) |
+| **Pyrakanth Nation Manual** | Fire | ♠ Wake Up | "Burning Truth" (♠), "Cleansing Flame" (♥), "Heat of Growth" (♣) |
+| **Virelune Nation Manual** | Wind | ♣ Grow Up | "Gentle Shaping" (♣), "Forest Breath" (♠), "Patient Growth" (♣) |
+| **Meridia Nation Manual** | Earth | ♦ Show Up | "Unshakeable Ground" (♥), "Rooted Strength" (♣), "Welcoming Hearth" (♦) |
+| **Lamenth Nation Manual** | Water | ♥ Clean Up | "Depth Gaze" (♥), "Grief Current" (♥), "Still Depths" (♠) |
+| **Mountain Sect Manual** | Mountain | ♣ Grow Up | "Unmoved" (♣), "The Gate" (♣), "Boundary Clear" (♥) |
+| **Thunder Sect Manual** | Thunder | ♠ Wake Up | "Breaking Point" (♠), "Sudden Growth" (♣), "Storm Clearing" (♠) |
+| **Heaven Sect Manual** | Heaven | ♠ Wake Up | "First Stroke" (♠), "Courage to Begin" (♠), "Skyward" (♣) |
 
 ---
 
@@ -165,7 +185,17 @@ This is the primary way to acquire non-nation manuals before the custom deck unl
 
 ### Source 5: Real-World Show Up → ♦ Diamonds
 
-When the player journals about a real-world action (walked, meditated, called a friend), they earn a Show Up key fragment. Collect enough → unlock the next ♦ card in their current manual.
+When the player journals about a real-world action (walked, meditated, called a friend, completed a task), they earn a **Show Up Fragment**.
+
+- Each real journal entry with an action = 1 Show Up Fragment
+- 3 Fragments = craft any ♦ card of the player's choice into their current manual
+- Fragments are tracked per-player, not per-manual — they persist across manual switches
+
+**Why this exists:** Every manual has exactly 3 ♦ cards, but the player might not be in the right nation or sect to unlock them through gameplay alone. The Fragment system ensures that an active player (who journals daily) can always fill their ♦ slots regardless of manual progression.
+
+**Design intent:** This is the one suit where real-life consistency directly translates to in-game progress. You cannot grind ♦ fragments — you can only earn them by journaling about things you actually did.
+
+**Balance guard:** Maximum 1 Fragment per 4-hour window. Prevents "I journaled 50 times in 5 minutes" gaming. A player who journals once per day will fill their ♦ suit in any manual within ~2 weeks of active play, alongside natural manual progression.
 
 ---
 
@@ -225,6 +255,21 @@ When the player's **total unique cards across all manuals** reaches 52:
 - Unlocks: Custom Deck Builder
 - Unlocks: Heaven cultivation band
 - Context: Not the end — the beginning of true deck building
+
+### Guaranteed Reachability
+
+Because every manual has exactly 3♠ 3♥ 4♣ 3♦:
+
+| Manuals Collected | Min per Suit | Milestone Progress |
+|------------------|-------------|-------------------|
+| 1 (starter nation) | 3 ♠, 3 ♥, 4 ♣, 3 ♦ | 13 / 52 |
+| 2 (first sect) | 6 ♠, 6 ♥, 8 ♣, 6 ♦ | 26 / 52 |
+| 3 (second sect) | 9 ♠, 9 ♥, 12 ♣, 9 ♦ | 39 / 52 |
+| 4 (third sect or trigram) | 12 ♠, 12 ♥, 16 ♣, 12 ♦ | 52+ ✓ |
+
+**4 complete manuals = guaranteed milestone.** Any combination of 4 manuals works — nation, sect, trigram, doesn't matter. The 5th+ manual provides variety and power, not necessity.
+
+**With Show Up Fragments:** A player who journals actively can reach 52 in 3 manuals by crafting their own ♦ cards. This rewards real-world consistency without creating a bottleneck for players who collect fewer manuals.
 
 ### Starter Card Fallback
 
