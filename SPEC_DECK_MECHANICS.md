@@ -43,8 +43,6 @@ The trigram philosophy shifts **card power within each suit**, not the count:
 - A Meridia manual has powerful ♦ and ♥ (real-world and processing support)
 - But ALL manuals have exactly 3♠ 3♥ 4♣ 3♦ — the ratio never changes
 
-This ensures: collect any 5 manuals → guaranteed 15+ of each suit → 52-card milestone is reachable regardless of player choices.
-
 ### Power Profile by Nation (Suit Counts Are Equal, Power Varies)
 
 | Nation (Trigram) | ♠ Power | ♥ Power | ♣ Power | ♦ Power | Playstyle |
@@ -75,60 +73,110 @@ This ensures: collect any 5 manuals → guaranteed 15+ of each suit → 52-card 
 ## Player Progression (The Manual Arc)
 
 ```
-Phase 1: Plant seeds → earn Nation Manual (13 cards)
+Phase 1: Start in HOME NATION → plant seeds → unlock Home Manual (13 cards)
               ↓
-Phase 2: Complete nation → unlock Sect Manual (13 cards) → switch decks
+Phase 2: Complete home manual → Wandering Cultivators appear from other nations
               ↓
-Phase 3: Complete sect → unlock second Sect Manual → switch decks
+Phase 3: Befriend a Wanderer → earn Foreign Manual cards → switch decks
               ↓
-Phase 4: Collect 52 unique → unlock Custom Deck building
+Phase 4: Collect 52 unique across all manuals → unlock Custom Deck building
               ↓
 Phase 5: Mix cards from any manual you own into a custom 13-52 card deck
 ```
 
-### Phase 1 — Nation Manual (Tutorial Zone)
+### Phase 1 — Home Nation Manual (Tutorial)
 
-The player starts with **0 cards**. They must plant seeds to unlock their nation's manual card by card.
+There are **5 different starting experiences**, one per nation. The player chooses (or is assigned) their home nation at game start.
 
-**How it works:**
+| Home Nation | Starter Manual | Trigram | Playstyle |
+|-------------|---------------|---------|-----------|
+| **Argyra** | "Argyran Gate" | Lake | Balanced, Show Up focused |
+| **Pyrakanth** | "Pyrakanth Flame" | Fire | Aggressive, Wake Up specialist |
+| **Virelune** | "Virelune Roots" | Wind | Growth specialist, gradual |
+| **Meridia** | "Meridia Stand" | Earth | Steady, real-world support |
+| **Lamenth** | "Lamenth Depths" | Water | Depth, processing mastery |
 
-1. Player plants a seed → it grows tied to their **home nation's trigram**
-2. Harvest produces a **key fragment** (not a card directly)
-3. Collect enough key fragments → unlock the next card in the manual
-4. When all 13 cards are unlocked → the manual is "complete"
+The player starts with **0 cards** and plants seeds to unlock their home manual card by card:
+
+1. Plant a seed → harvest → **key fragment**
+2. Collect enough fragments → unlock the next card in the home manual (fixed order)
+3. All 13 cards unlocked → home manual is complete
 
 ```
 Example progression (Argyra/Lake):
-  Plant 1 → unlock "Reflective Surface" (♠)
+  Plant 1 → unlock "The Witness" (♠)
   Plant 3 → unlock "Shared Stillness" (♥)
   Plant 5 → unlock "Joy in Company" (♦)
-  ... continues until all 13 unlocked
+  Plant 8 → unlock "Reflective Surface" (♠)
+  ... until all 13 unlocked
 ```
 
-**During this phase:** The player's active deck is the partial manual. Empty slots are filled with basic "Meditation" starter cards that have minimal effects. The game is playable from day one.
+**During this phase:** Empty slots = starter filler cards. The player cannot leave their home nation until their manual is complete.
 
-### Phase 2 — Sect Manual
+### Phase 2 — Wandering Cultivators (Cross-Nation Cards)
 
-After completing the nation manual, the player is invited to join a sect. They receive a new 13-card manual that **replaces their active deck entirely**.
+After completing the home manual, **wandering cultivators** begin appearing in the player's home nation. These are NPCs from other nations who carry foreign manuals.
 
-- Player cannot use nation cards while using the sect manual
-- Player can switch back to the nation manual anytime (nations don't disappear)
-- Only ONE manual can be active at a time
+**Rules:**
 
-### Phase 3 — Second Sect
+- Each wanderer has a **home nation** (one of the other 4) and a **backstory** for how they got their deck
+- They appear in the player's home nation with **visa status** (temporary permission to be there)
+- The player cannot copy their deck directly — only earn cards through interaction
 
-Player can collect additional sect manuals from other trigrams. Still manual-locked — one at a time.
+**Unlocking foreign cards:**
 
-### Phase 4 — Custom Deck Unlock
+1. Befriend the wanderer (dialog, favors, shared cultivation)
+2. Each favor completed → they teach the player **one card** from their manual
+3. Cards go into a new "Foreign" manual sub-entry in the player's Collection
+4. Once the player has enough foreign cards, they can **switch to that manual** as their active deck
 
-When the player's **total unique cards across ALL manuals** reaches 52, the Custom Deck Builder unlocks.
+**Visas & citizenship:**
+
+- Wanderers are in the host nation **by visa** — temporary permission from the host nation's authorities
+- Some wanderers seek **citizenship** — permanent residence
+- The player can help them obtain citizenship (long quest chain) → the NPC settles permanently
+- A settled wanderer offers the full 13-card manual unlock path
+- **Design intent:** Visas explain why foreign NPCs are present. Citizenship quests are how the player unlocks complete foreign manuals.
+
+### Phase 3 — Second Nation / Sect Manual
+
+The player can accumulate additional manuals:
+- **Foreign nation manuals** via wandering cultivators (one per nation)
+- **Trigram sect manuals** via friction encounters (one per trigram, 8 total)
+
+Only ONE manual can be active at a time. Player can switch between any partially or fully unlocked manual from the Collection.
+
+### Phase 4 — 52 Unique Collected
+
+When total unique cards across ALL manuals reaches 52 → Custom Deck Builder unlocks.
 
 ### Phase 5 — True Deck Building
 
-Player can open the Custom Deck Builder and mix-and-match cards from any manual they own. Restrictions:
-- Maximum deck size: 52
-- Minimum deck size: 13 (but you'll want 52 for the Heaven band)
+Player can mix cards from any manual they own into a custom deck:
+- Max deck size: 52
+- Min deck size: 13
 - No duplicate cards (each card is unique)
+
+---
+
+### Wandering Cultivator Backstories (Design Template)
+
+Every wandering cultivator NPC has:
+
+1. **Home nation** (where they came from)
+2. **Host nation** (where the player meets them)
+3. **Why they left** (exile, pilgrimage, diplomacy, escape, curiosity)
+4. **How they got their deck** (inherited, self-taught, stolen, gifted by a master, discovered in ruins)
+5. **What they want** (visa renewal, citizenship, a specific card, knowledge, peace)
+
+**Examples:**
+
+| NPC | Home | Host | Left Because | How They Got Their Deck | Wants |
+|-----|------|------|-------------|------------------------|-------|
+| Kaelen | Pyrakanth | Argyra | Exile (political dissenter) | Stole one page from Pyrakanth Flame archive, reconstructed rest from memory | Asylum, then citizenship |
+| Mira | Virelune | Meridia | Pilgrimage (seeking the Still Point) | Village elder entrusted the Virelune Roots manual before she left | Permission to visit Mountain border sect |
+| Senn | Lamenth | Virelune | Escape (grief too heavy) | Found Lamenth Depths in a flood ruin; previous owner's skeleton still held it | Someone to share the weight |
+| Taren | Argyra | Pyrakanth | Diplomacy (envoy from Lake sect) | Formal training at Lake sect academy, graduated with full Argyran Gate | Trade agreement, safe passage home |
 
 ---
 
