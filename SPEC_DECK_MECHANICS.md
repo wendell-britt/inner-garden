@@ -70,106 +70,138 @@ The trigram philosophy shifts **card power within each suit**, not the count:
 
 ---
 
+
 ## Player Progression (The Manual Arc)
 
 ```
-Phase 1: Start in HOME NATION → plant seeds → unlock Home Manual (13 cards)
-              ↓
-Phase 2: Complete home manual → Wandering Cultivators appear from other nations
-              ↓
-Phase 3: Befriend a Wanderer → earn Foreign Manual cards → switch decks
-              ↓
-Phase 4: Collect 52 unique across all manuals → unlock Custom Deck building
-              ↓
-Phase 5: Mix cards from any manual you own into a custom 13-52 card deck
+PROLOGUE (cutscene — all players identical):
+  You are a farmer. A wounded wanderer staggers onto your land,
+  on the run from an enemy sect. They give you their last card
+  — your first cultivation technique — before vanishing.
+
+  "Plant it. Grow it. That's all you need to begin."
+
+TUTORIAL (phase 1 — all players, same start):
+  One map: the starting farm (default region: Argyra).
+  Plant seeds → harvest → unlock Home Manual card by card.
+  Learn farming, meditation, basic card use.
+  The "farmer who received a card" origin story.
+
+CHARACTER CREATION (narrative transition — past → present):
+  "Years later..."
+  Pick: Nation, Trigram alignment lean, Appearance.
+  The farmer is now a cultivator. The open world begins.
+
+PHASE 2:
+  Arrive in chosen nation's capital.
+  First landmark: Heaven Sect branch (weapon/armor shop — in every city).
+  First wandering cultivator encounter → foreign card.
+
+PHASE 3:
+  Collect manuals from wandering cultivators + trigram NPCs.
+  Only one manual active at a time.
+
+PHASE 4:
+  52 unique cards across ALL manuals → Custom Deck Builder unlocks.
+
+PHASE 5:
+  Mix cards from any manual into a custom deck.
+  "The Wanderer's Gift" becomes usable as a wild card (any suit).
 ```
 
-### Phase 1 — Home Nation Manual (Tutorial)
+### PROLOGUE — "The Wanderer's Gift" (Opening Cutscene)
 
-There are **5 different starting experiences**, one per nation. The player chooses (or is assigned) their home nation at game start.
+Every player sees the same opening — a farmer working their land. A wounded cultivator staggers in, gives them their last card, and disappears into the treeline. The farmer is now a cultivator.
 
-| Home Nation | Starter Manual | Trigram | Playstyle |
-|-------------|---------------|---------|-----------|
-| **Argyra** | "Argyran Gate" | Lake | Balanced, Show Up focused |
-| **Pyrakanth** | "Pyrakanth Flame" | Fire | Aggressive, Wake Up specialist |
-| **Virelune** | "Virelune Roots" | Wind | Growth specialist, gradual |
-| **Meridia** | "Meridia Stand" | Earth | Steady, real-world support |
-| **Lamenth** | "Lamenth Depths" | Water | Depth, processing mastery |
+**The card:** "The Wanderer's Gift" — the only wild card in the game. It sits in the collection as a memento during the tutorial. Once Custom Deck building unlocks, it can fill any suit slot. This is the player's first card, and the only card that can never be burned for leveling.
 
-The player starts with **0 cards** and plants seeds to unlock their home manual card by card:
+### TUTORIAL — Home Manual (All Players, Same Start)
 
-1. Plant a seed → harvest → **key fragment**
-2. Collect enough fragments → unlock the next card in the home manual (fixed order)
-3. All 13 cards unlocked → home manual is complete
+All players complete the tutorial on the **same starting farm** using the **same starter manual**. Default region is Argyra (balanced, Lake trigram):
+
+| Starter Manual | Trigram | Playstyle | Suit Balance |
+|----------------|---------|-----------|-------------|
+| "Argyran Gate" | Lake | Balanced, Show Up focused | 3♠ 3♥ 4♣ 3♦ |
+
+The player starts with **0 active cards**. They plant seeds, harvest, earn key fragments, and unlock manual cards in fixed order:
+
+1. Plant → harvest → key fragment(s) based on harvest quality
+2. Collect enough fragments → unlock next card in fixed manual order
+3. All 13 cards unlocked → tutorial complete
 
 ```
-Example progression (Argyra/Lake):
-  Plant 1 → unlock "The Witness" (♠)
-  Plant 3 → unlock "Shared Stillness" (♥)
-  Plant 5 → unlock "Joy in Company" (♦)
-  Plant 8 → unlock "Reflective Surface" (♠)
+Tutorial card unlock order (Argyran Gate):
+  Harvest 1 → "The Witness" (♠)
+  Harvest 3 → "Shared Stillness" (♥)
+  Harvest 5 → "Joy in Company" (♦)
+  Harvest 8 → "Reflective Surface" (♠)
   ... until all 13 unlocked
 ```
 
-**During this phase:** Empty slots = starter filler cards. The player cannot leave their home nation until their manual is complete.
+**During this phase:** Empty slots = "Meditation" starter filler cards (effect: Rest 1 Qi, cost 0). Player cannot leave the farm until their manual is complete.
 
-### Phase 2 — Wandering Cultivators (Cross-Nation Cards)
+### CHARACTER CREATION — The Transition
 
-After completing the home manual, **wandering cultivators** begin appearing in the player's home nation. These are NPCs from other nations who carry foreign manuals.
+After completing the 13-card manual, a narrative transition screen:
 
-**Rules:**
+> **"Years later..."**
 
-- Each wanderer has a **home nation** (one of the other 4) and a **backstory** for how they got their deck
-- They appear in the player's home nation with **visa status** (temporary permission to be there)
-- The player cannot copy their deck directly — only earn cards through interaction
+Full character creation:
+- **Nation** — choose from 5 (Argyra, Pyrakanth, Virelune, Meridia, Lamenth)
+- **Trigram alignment lean** — which trigram philosophy the character resonates with (affects starting relationship with trigram NPCs)
+- **Appearance** — name, sprite customization
 
-**Unlocking foreign cards:**
+The completed tutorial manual carries forward as the player's foundation. "The Wanderer's Gift" stays in the collection.
 
-1. Befriend the wanderer (dialog, favors, shared cultivation)
-2. Each favor completed → they teach the player **one card** from their manual
-3. Cards go into a new "Foreign" manual sub-entry in the player's Collection
-4. Once the player has enough foreign cards, they can **switch to that manual** as their active deck
+### PHASE 2 — Open World Begins
 
-**Visas & citizenship:**
+The player arrives in their chosen nation's capital. The first major landmark is the **Heaven Sect branch** — they run weapon and armor shops in every city and town in Calrunia. Here the player can:
+- Buy/sell/trade cards
+- Upgrade equipment
+- Get leads on wandering cultivators from other nations
 
-- Wanderers are in the host nation **by visa** — temporary permission from the host nation's authorities
-- Some wanderers seek **citizenship** — permanent residence
-- The player can help them obtain citizenship (long quest chain) → the NPC settles permanently
-- A settled wanderer offers the full 13-card manual unlock path
-- **Design intent:** Visas explain why foreign NPCs are present. Citizenship quests are how the player unlocks complete foreign manuals.
+The first **wandering cultivator** encounter happens shortly after arrival — this introduces a foreign nation's card and opens cross-nation collection.
 
-### Phase 3 — Second Nation / Sect Manual
+### PHASE 3 — Wandering Cultivators and Multiple Manuals
 
-The player can accumulate additional manuals:
+After the open world begins, wandering cultivators from other nations appear:
+
+- Each wanderer has a **home nation** (one of the other 4), a **visa status**, and a **backstory** for how they got their deck
+- Befriend them through tasks → they teach one card from their manual at a time
+- Player can switch active deck to any complete or partial foreign manual
+- Only ONE manual active at a time
+
+**Visas and Citizenship:**
+- Wanderers are in the host nation **by visa** (temporary permission)
+- Some seek **citizenship** (long quest chain) → permanent settlement → full 13-card manual unlock
+- Design intent: Visas explain why foreign NPCs are present. Citizenship quests are how the player unlocks complete foreign manuals.
+
+Additional manuals come from:
 - **Foreign nation manuals** via wandering cultivators (one per nation)
 - **Trigram sect manuals** via friction encounters (one per trigram, 8 total)
 
-Only ONE manual can be active at a time. Player can switch between any partially or fully unlocked manual from the Collection.
+### PHASE 4 — 52 Unique → Custom Deck Unlock
 
-### Phase 4 — 52 Unique Collected
+When total unique cards across ALL manuals reaches 52, the Custom Deck Builder unlocks.
 
-When total unique cards across ALL manuals reaches 52 → Custom Deck Builder unlocks.
+### PHASE 5 — True Deck Building
 
-### Phase 5 — True Deck Building
-
-Player can mix cards from any manual they own into a custom deck:
+Mix cards from any owned manual into a custom deck:
 - Max deck size: 52
 - Min deck size: 13
-- No duplicate cards (each card is unique)
-
+- No duplicate cards
+- "The Wanderer's Gift" becomes usable as a wild card (fill any suit)
 ---
 
-## Home Nation Assignment (Design Proposals)
+## Home Nation Assignment (Locked: Tutorial Default → Character Creation)
 
-The player's starting nation determines their first manual. Three possible methods:
+As decided: the player starts the tutorial as a **farmer in Argyra** (default). After completing the tutorial, they create their character and choose their nation for the open world.
 
-| Method | How It Works | Pros | Cons |
-|--------|-------------|------|------|
-| **Trigram Quiz** | At character creation, answer 3-4 philosophical questions aligned with the trigram manifestos. Result determines nation. | Feels diegetic, introduces trigrams immediately | Player might not get the nation they wanted visually |
-| **Free Choice** | Pick any of the 5 nations from a menu. Brief description of each. | Maximum player agency | No lore introduction at start |
-| **Tutorial Default** | All players start in Argyra (balanced, Lake trigram). Nation choice unlocks later via wandering cultivator. | Simplest onboarding | Reduces replay value |
-
-**Proposal:** Trigram Quiz for first playthrough, Free Choice on New Game+.
+This is locked canon:
+- Tutorial = past. Player is a farmer, no nation choice.
+- Character creation = present. Player picks their nation for the open world.
+- The tutorial manual ("Argyran Gate") carries forward regardless of nation choice.
+- New Game+ can skip the tutorial and go straight to character creation.
 
 ---
 

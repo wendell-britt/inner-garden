@@ -13,7 +13,9 @@
 
 ### WAKE UP
 Discover new skills, cards, lore, and real-life intentions.
-- Tutorial sequences and narrative reveals
+- **Prologue cutscene:** A wounded wandering cultivator gives the player their first card. Farmer → cultivator.
+- **Tutorial:** Learn farming, meditation, basic cards on the starting farm (Argyra, Lake trigram).
+- **Character creation:** After tutorial, pick nation, trigram alignment, appearance. The open world begins.
 - Unlock new card types / encounter types
 - Learn about the world through NPC conversations
 - Set intentions: "I want to create a journaling practice" becomes the first seed
@@ -377,41 +379,47 @@ Manual save: Menu option
 - Sort by element, rarity, level
 - Select cards for battle loadout
 
-### Phase 4: Trigram NPCs (8 Advocates)
+### Phase 4: Prologue & Tutorial
+- Opening cutscene (wounded wanderer gives "The Wanderer's Gift" wild card)
+- Tutorial farm map (Argyra, Lake trigram, "Argyran Gate" manual)
+- Key fragment → card unlock progression for 13-card manual
+- "Years later..." character creation: nation, trigram alignment, appearance
+
+### Phase 5: Trigram NPCs (8 Advocates)
 - 8 trigram NPCs with manifestos and friction pairs
 - Friction encounters (philosophical debates with alignment choices)
 - Each NPC grants a unique service unlock
 - Alignment tracking (Satisfaction/Dissatisfaction/Neutral)
 
-### Phase 5: Battle System (Tactical RPG, Gridless)
+### Phase 6: Battle System (Tactical RPG, Gridless)
 - `js/systems/BattleSystem.js` — Turn structure, Qi management
 - `js/entities/Enemy.js` — World enemy and inner demon
 - Real-time movement + time-freeze hand
 - Card range, line-of-sight, positioning
 - Card resolution and damage calculation
 
-### Phase 6: Five Nations World
+### Phase 7: Five Nations World
 - 5 nations with distinct soil mechanics, climate, seed modifiers
 - Travel gated by cultivation tier + story milestones
 - Home garden in starting nation; remote tillable sites per nation
 
-### Phase 7: Full Encounter Pipeline
+### Phase 8: Full Encounter Pipeline
 - World map / encounter nodes
 - Inner demon generation from journal data
 - Rewards pipeline (story flags, card seeds, exp)
 - Pantheon alignment tracking
 
-### Phase 8: Cultivation Heaven Bands
+### Phase 9: Cultivation Heaven Bands
 - Tiered unlocks (band_0 through band_heaven)
 - Each band gates systems, not story
 - `HEAVEN_BANDS` config in CultivationSystem.js
 
-### Phase 9: Cutscenes & Story
+### Phase 10: Cutscenes & Story
 - Camera movement, timed dialog reveals
 - Chapter transitions
 - Friction encounter cutscenes
 
-### Phase 10: Polish
+### Phase 11: Polish
 - Card animations (play, draw, discard)
 - Enemy attack patterns
 - Elemental advantage system (Wu Xing generation cycle)
